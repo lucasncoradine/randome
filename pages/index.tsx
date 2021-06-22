@@ -1,6 +1,6 @@
 import React from "react"
-import Image from "next/image"
+import { HomePage } from "./Home/HomePage"
 
 export default function Home() {
-  return <Image src="/logo.svg" width={240} height={70} />
+  return <HomePage />
 }
