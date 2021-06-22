@@ -17,7 +17,12 @@ export const GridItem: React.FC<GridItemProps> = ({
   children,
 }) => {
   return (
-    <GridItemContainer col={col} align={alignItems} justify={justifyContent}>
+    <GridItemContainer
+      className={className}
+      col={col}
+      align={alignItems}
+      justify={justifyContent}
+    >
       {children}
     </GridItemContainer>
   )

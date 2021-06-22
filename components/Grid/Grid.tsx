@@ -1,13 +1,19 @@
 import React from "react"
 import { GridContainer } from "./grid.styled"
 
-export type FlexPosition = "flex-start" | "center" | "flex-end"
+export type FlexPosition =
+  | "flex-start"
+  | "center"
+  | "flex-end"
+  | "space-between"
 export type FlexDirection = "column" | "row"
 
 interface GridProps {
   alignItems?: FlexPosition
   justifyContent?: FlexPosition
   direction?: FlexDirection
+  spacing?: number
+  height?: number | string
   className?: string
 }
 
@@ -15,6 +21,8 @@ export const Grid: React.FC<GridProps> = ({
   alignItems = "flex-start",
   justifyContent = "flex-start",
   direction = "row",
+  spacing = 0,
+  height,
   className,
   children,
 }) => {
@@ -25,6 +33,8 @@ export const Grid: React.FC<GridProps> = ({
       className={classes}
       align={alignItems}
       justify={justifyContent}
+      spacing={spacing}
+      height={height}
     >
       {children}
     </GridContainer>

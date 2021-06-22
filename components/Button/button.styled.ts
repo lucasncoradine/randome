@@ -2,12 +2,8 @@ import styled from "styled-components"
 import { Color } from "../../styles/vars.styled"
 
 export const ButtonElement = styled.button`
-  border-radius: 16px;
   outline: none;
   border: none;
-  padding: 5px 15px;
-  min-width: 120px;
-  height: 40px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -15,7 +11,23 @@ export const ButtonElement = styled.button`
   transition: all 150ms ease-in-out;
 
   .buttonIcon {
-    margin-right: 8px;
+    & ~ .buttonLabel {
+      margin-left: 8px;
+    }
+  }
+
+  &.size {
+    &--normal {
+      padding: 10px 20px;
+      height: 40px;
+      border-radius: 16px;
+    }
+
+    &--large {
+      height: 72px;
+      border-radius: 28px;
+      padding: 8px 35px;
+    }
   }
 
   &.button {
@@ -37,23 +49,17 @@ export const ButtonElement = styled.button`
       }
     }
 
-    &--link {
-      background-color: transparent;
-      color: ${Color.Secondary};
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-
     &--transparent {
       background-color: transparent;
-      color: ${Color.Black};
+      color: ${Color.Primary};
 
       &:hover {
         background-color: ${Color.GrayLight};
-        color: ${Color.Secondary};
       }
+    }
+
+    &--icon {
+      padding: 10px;
     }
 
     &:disabled {
@@ -61,5 +67,16 @@ export const ButtonElement = styled.button`
       pointer-events: none;
       cursor: not-allowed;
     }
+  }
+`
+
+export const LinkButtonElement = styled.a<{ color: string | undefined }>`
+  display: inline-flex;
+  background-color: transparent;
+  color: ${(props) => props.color || Color.Secondary};
+  text-decoration: underline;
+
+  &:hover {
+    text-decoration: underline;
   }
 `
