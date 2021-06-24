@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import { Color } from "../../styles/vars.styled"
+import { darken } from "polished"
 
 export const ButtonElement = styled.button`
   outline: none;
@@ -11,8 +12,16 @@ export const ButtonElement = styled.button`
   transition: all 150ms ease-in-out;
 
   .buttonIcon {
-    & ~ .buttonLabel {
-      margin-left: 8px;
+    &--left {
+      & ~ .buttonLabel {
+        margin-left: 8px;
+      }
+    }
+
+    &--right {
+      & ~ .buttonLabel {
+        margin-right: 8px;
+      }
     }
   }
 
@@ -58,15 +67,34 @@ export const ButtonElement = styled.button`
       }
     }
 
+    &--transparent-secondary {
+      background-color: transparent;
+      color: ${Color.Secondary};
+
+      &:hover {
+        background-color: ${Color.GrayLight};
+      }
+    }
+
+    &--terciary {
+      background-color: ${Color.GrayLight};
+      color: ${Color.Secondary};
+
+      &:hover {
+        background-color: ${darken(0.05, Color.GrayLight)};
+      }
+    }
+
     &--icon {
       padding: 10px;
     }
+  }
 
-    &:disabled {
-      opacity: 0.25;
-      pointer-events: none;
-      cursor: not-allowed;
-    }
+  &:disabled {
+    opacity: 0.25;
+    pointer-events: none;
+    cursor: not-allowed;
+    pointer-events: none;
   }
 `
 

@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import {
+  Alert,
   Button,
   Grid,
   GridItem,
@@ -7,7 +8,7 @@ import {
   LinkButton,
   Typography,
 } from "../../components"
-import { Alert } from "../../components/Alert/Alert"
+import { LoginButton } from "../../Auth/GoogleAuth"
 import { Color } from "../../styles/vars.styled"
 import { AnimatedEmoji, Footer } from "./home.styled"
 

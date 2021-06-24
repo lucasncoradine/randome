@@ -16,7 +16,7 @@ export const LinkButton: React.FC<LinkButtonProps> = ({
 }) => {
   return (
     <LinkButtonElement href={href} color={color}>
-      <Typography variant="p" weight="bold">
+      <Typography variant="span" weight="bold">
         {label}
       </Typography>
     </LinkButtonElement>

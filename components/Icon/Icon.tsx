@@ -2,9 +2,12 @@ import React from "react"
 import { Icon as FeatherIcon } from "react-feather"
 import { Color } from "../../styles/vars.styled"
 import { IconWrapper } from "./icon.styled"
+import Image from "next/image"
+
+export type IconType = FeatherIcon | string
 
 interface IconProps {
-  icon: FeatherIcon
+  icon: IconType
   color?: Color
   size?: number
   className?: string
@@ -16,11 +19,15 @@ export const Icon: React.FC<IconProps> = ({
   size = 24,
   className,
 }) => {
-  const IconElement = icon
+  const renderIcon = () => {
+    if (typeof icon === "string") {
+      return <Image src={icon} width={size || 24} height={size || 24} />
+    } else {
+      const IconElement = icon
 
-  return (
-    <IconWrapper className={className}>
-      <IconElement color={color} size={size} />
-    </IconWrapper>
-  )
+      return <IconElement color={color} size={size} />
+    }
+  }
+
+  return <IconWrapper className={className}>{renderIcon()}</IconWrapper>
 }

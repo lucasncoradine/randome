@@ -2,7 +2,7 @@ import React from "react"
 import { Color } from "../../styles/vars.styled"
 import { TypographyElement } from "./typography.styled"
 
-export type Variant = "h1" | "h2" | "h3" | "h4" | "p" | "small"
+export type Variant = "h1" | "h2" | "h3" | "h4" | "p" | "small" | "span"
 type Weight = "regular" | "bold" | "extrabold"
 
 export interface TypographyProps {

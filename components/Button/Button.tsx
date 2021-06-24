@@ -2,18 +2,25 @@ import React from "react"
 import { Icon as FeatherIcon } from "react-feather"
 import { Icon } from ".."
 import { Color } from "../../styles/vars.styled"
+import { IconType } from "../Icon/Icon"
 import {
   Typography,
   Variant as TypographyVariant,
 } from "../Typography/Typography"
 import { ButtonElement } from "./button.styled"
 
-type Variant = "primary" | "secondary" | "transparent"
+export type Variant =
+  | "primary"
+  | "secondary"
+  | "terciary"
+  | "transparent"
+  | "transparent-secondary"
 type Size = "normal" | "large"
 
-interface ButtonProps {
+export interface ButtonProps {
   label?: string
-  icon?: FeatherIcon
+  leftIcon?: IconType
+  rightIcon?: IconType
   variant?: Variant
   disabled?: boolean
   size?: Size
@@ -23,7 +30,8 @@ interface ButtonProps {
 
 export const Button: React.FC<ButtonProps> = ({
   label,
-  icon,
+  leftIcon,
+  rightIcon,
   variant = "transparent",
   disabled,
   size = "normal",
@@ -31,7 +39,7 @@ export const Button: React.FC<ButtonProps> = ({
   className,
 }) => {
   const classes = `button--${variant} ${
-    icon && "button--icon"
+    leftIcon && "button--icon"
   } size--${size} ${className}`
 
   const typographyVariant: Record<string, TypographyVariant> = {
@@ -41,8 +49,12 @@ export const Button: React.FC<ButtonProps> = ({
 
   return (
     <ButtonElement onClick={onClick} className={classes} disabled={disabled}>
-      {icon && (
-        <Icon icon={icon} size={label ? 20 : 24} className="buttonIcon" />
+      {leftIcon && (
+        <Icon
+          icon={leftIcon}
+          size={label ? 20 : 24}
+          className="buttonIcon--left"
+        />
       )}
 
       {label && (
@@ -53,6 +65,14 @@ export const Button: React.FC<ButtonProps> = ({
         >
           {label}
         </Typography>
+      )}
+
+      {rightIcon && (
+        <Icon
+          icon={rightIcon}
+          size={label ? 20 : 24}
+          className="buttonIcon--right"
+        />
       )}
     </ButtonElement>
   )

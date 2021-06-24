@@ -17,3 +17,5 @@ export enum Color {
   Gray2 = "#656565",
   Black = "#313131",
 }
+
+export const boxShadow = "0px 3px 6px rgba(178, 186, 188, 0.3)"
