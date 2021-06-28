@@ -1,15 +1,21 @@
-import React from "react"
-import { Button, Grid, GridItem, Select, SelectItem } from ".."
-import { HeaderContainer } from "./header.styled"
 import Image from "next/image"
-import { Settings, User } from "react-feather"
+import React from "react"
+import { Moon, Plus, Settings } from "react-feather"
+import { Button, Grid, GridItem, Select, SelectItem } from ".."
 import { LoginButton, LogoutButton } from "../../Auth/GoogleAuth"
+import { useApp } from "../../contexts/AppContext"
 import { useAuth } from "../../contexts/AuthContext"
+import { HeaderContainer } from "./header.styled"
 
-interface HeaderProps {}
-
-export const Header: React.FC<HeaderProps> = () => {
+export const Header: React.FC = () => {
+  const { selectedList, setSelectedList } = useApp()
   const { user } = useAuth()
+
+  const handleListChange = (selected: { value: string; label: string }) => {
+    const list = user?.lists.find((x) => x.id === selected.value)
+
+    if (list) setSelectedList(list)
+  }
 
   return (
     <HeaderContainer>
@@ -26,29 +32,38 @@ export const Header: React.FC<HeaderProps> = () => {
                 placeholder="Selecionar Lista"
                 variant="terciary"
                 disabled={!user}
+                onChange={handleListChange}
               >
-                <SelectItem value={1} label="Lista 1" />
-                <SelectItem value={2} label="Lista 2" />
+                {user &&
+                  user.lists.map((list) => (
+                    <SelectItem
+                      selected={selectedList?.id === list.id}
+                      key={list.id}
+                      value={list.id}
+                      label={list.fields.name}
+                    />
+                  ))}
+
+                <Button
+                  variant="terciary"
+                  label="Nova lista"
+                  leftIcon={Plus}
+                  disabled
+                />
               </Select>
             </GridItem>
 
             <GridItem>
-              <Select variant="transparent" icon={User}>
+              <Select variant="transparent" icon={Settings} hideArrow>
+                <Button
+                  variant="transparent"
+                  label="Tema escuro"
+                  leftIcon={Moon}
+                  disabled
+                />
                 <>{!user && <LoginButton />}</>
-
-                <>
-                  {user && (
-                    <>
-                      <SelectItem value={0} label={user?.name.split(" ")[0]} />
-                      <LogoutButton />
-                    </>
-                  )}
-                </>
+                <>{user && <LogoutButton />}</>
               </Select>
-            </GridItem>
-
-            <GridItem>
-              <Button leftIcon={Settings} />
             </GridItem>
           </Grid>
         </GridItem>

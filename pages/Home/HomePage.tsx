@@ -6,23 +6,23 @@ import {
   GridItem,
   Header,
   LinkButton,
+  Loader,
   Typography,
 } from "../../components"
-import { LoginButton } from "../../Auth/GoogleAuth"
+import { useApp } from "../../contexts/AppContext"
+import { useAuth } from "../../contexts/AuthContext"
 import { Color } from "../../styles/vars.styled"
 import { AnimatedEmoji, Footer } from "./home.styled"
 
 export const HomePage: React.FC = () => {
-  const emojis = "🎈🎞🎁🖼🎪👑⚽⚾🏀🏐🏈🎳🎱🛶🤿⛸🏓🏆🎯🎮🕹🎲🎸🎷💣"
-
-  const [titleString, setTitleString] = useState(
-    "Clique no botão abaixo para começar o sorteio"
-  )
-
-  const handleClick = (event: React.MouseEvent) => {}
+  const { selectedList } = useApp()
+  const { user, loading } = useAuth()
+  // const emojis = "🎈🎞🎁🖼🎪👑⚽⚾🏀🏐🏈🎳🎱🛶🤿⛸🏓🏆🎯🎮🕹🎲🎸🎷💣"
 
   return (
     <Grid height="100%" direction="column" alignItems="center" spacing={5}>
+      <Loader show={loading} fullscreen />
+
       <GridItem col={12}>
         <Header />
       </GridItem>
@@ -36,18 +36,23 @@ export const HomePage: React.FC = () => {
                 color={Color.Secondary}
                 textAlign="center"
               >
-                {titleString}
+                {selectedList &&
+                  "Clique no botão abaixo para começar o sorteio"}
+
+                {!selectedList && "Selecione uma lista para continuar"}
               </Typography>
             </div>
           </GridItem>
 
-          <GridItem>
-            <AnimatedEmoji variant="h2">{"👇"}</AnimatedEmoji>
-          </GridItem>
+          {selectedList && (
+            <GridItem>
+              <AnimatedEmoji variant="h2">{"👇"}</AnimatedEmoji>
+            </GridItem>
+          )}
 
           <GridItem>
             <Button
-              onClick={handleClick}
+              disabled={!selectedList}
               size="large"
               variant="primary"
               label="Iniciar Sorteio"
@@ -56,20 +61,22 @@ export const HomePage: React.FC = () => {
         </Grid>
       </GridItem>
 
-      <Footer justifyContent="center" col={12}>
-        <Alert>
-          <Typography>
-            As configurações definidas por você não estão sendo salvas.
-            <br />
-            <LinkButton
-              color={Color.Secondary3}
-              label="Clique aqui"
-              href="#"
-            ></LinkButton>{" "}
-            para criar uma conta e salvá-las
-          </Typography>
-        </Alert>
-      </Footer>
+      {!user && (
+        <Footer justifyContent="center" col={12}>
+          <Alert>
+            <Typography>
+              As configurações definidas por você não estão sendo salvas.
+              <br />
+              <LinkButton
+                color={Color.Secondary3}
+                label="Clique aqui"
+                href="#"
+              ></LinkButton>{" "}
+              para criar uma conta e salvá-las
+            </Typography>
+          </Alert>
+        </Footer>
+      )}
     </Grid>
   )
 }

@@ -30,6 +30,14 @@ export const SelectList = styled.div`
   & ${ButtonElement} {
     width: 100%;
     justify-content: flex-start;
+
+    &.selected {
+      color: ${Color.Primary};
+    }
+
+    & + ${ButtonElement} {
+      margin-top: 8px;
+    }
   }
 `
 

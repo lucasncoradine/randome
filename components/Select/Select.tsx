@@ -3,7 +3,7 @@ import { ChevronDown } from "react-feather"
 import { Variant } from "../Button/Button"
 import { IconType } from "../Icon/Icon"
 import { SelectButton, SelectList, SelectWrapper } from "./select.styled"
-import { SelectItemProps } from "./SelectItem"
+import { SelectItem, SelectItemProps } from "./SelectItem"
 
 type Selected = {
   value: string | number
@@ -11,28 +11,26 @@ type Selected = {
 }
 
 interface SelectProps {
-  children:
-    | React.ReactElement<SelectItemProps>[]
-    | React.ReactElement<SelectItemProps>
   icon?: IconType
   placeholder?: string
-  showArrow?: boolean
+  hideArrow?: boolean
   variant?: Variant
   listVariant?: Variant
   width?: number
   type?: "button" | "select"
   disabled?: boolean
+  onChange?(value: Selected): void
 }
 
 export const Select: React.FC<SelectProps> = ({
   icon,
   placeholder,
-  showArrow = true,
+  hideArrow = false,
   variant = "terciary",
   listVariant = "transparent-secondary",
   width,
-  type = "select",
   disabled,
+  onChange,
   children,
 }) => {
   const wrapperRef = useRef<HTMLDivElement>(null)
@@ -40,15 +38,23 @@ export const Select: React.FC<SelectProps> = ({
   const [selected, setSelected] = useState<Selected>()
 
   useEffect(() => {
-    React.Children.map(
-      children,
-      (child: React.ReactElement<SelectItemProps>) => {
-        if (child.props.selected) {
-          setSelected({ value: child.props.value, label: child.props.label })
+    React.Children.map(children, (child) => {
+      if (child) {
+        const element = child as React.ReactElement<SelectItemProps>
+
+        if (element.props.selected) {
+          setSelected({
+            value: element.props.value,
+            label: element.props.label,
+          })
         }
       }
-    )
+    })
   }, [children])
+
+  useEffect(() => {
+    if (selected) onChange?.(selected)
+  }, [selected])
 
   const handleBlur = (e: MouseEvent) => {
     if (open && !wrapperRef.current?.contains(e.target as Node)) {
@@ -72,36 +78,36 @@ export const Select: React.FC<SelectProps> = ({
         onClick={() => setOpen(!open)}
         label={selected?.label || placeholder}
         leftIcon={icon}
-        rightIcon={showArrow ? ChevronDown : undefined}
+        rightIcon={!hideArrow ? ChevronDown : undefined}
         disabled={disabled}
       />
 
       <SelectList hidden={!open}>
-        {React.Children.map(
-          children,
-          (child: React.ReactElement<SelectItemProps>) => {
-            const selectedChild =
-              type === "select" &&
-              selected &&
-              child.props.value === selected.value
+        {React.Children.map(children, (child) => {
+          if (child) {
+            const element = child as React.ReactElement<SelectItemProps>
 
-            const clickEvent = (e: React.MouseEvent) => {
-              if (type === "select") {
+            const selectedChild =
+              selected && element.props.value === selected.value
+
+            const clickEvent = () => {
+              if (element.type === SelectItem) {
                 setSelected({
-                  value: child.props.value,
-                  label: child.props.label,
+                  value: element.props.value,
+                  label: element.props.label,
                 })
                 setOpen(false)
               }
             }
 
-            return cloneElement(child, {
+            return cloneElement(element, {
+              className: selectedChild ? "selected" : "",
               selected: selectedChild,
-              variant: listVariant,
+              variant: element.props.variant || listVariant,
               onClick: clickEvent,
             })
           }
-        )}
+        })}
       </SelectList>
     </SelectWrapper>
   )

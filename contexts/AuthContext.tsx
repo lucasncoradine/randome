@@ -1,8 +1,11 @@
-import React, { createContext, useContext, useEffect, useState } from "react"
+import React, { createContext, useEffect, useState } from "react"
 import {
   GoogleLoginResponse,
   GoogleLoginResponseOffline,
 } from "react-google-login"
+import { List } from "../models/List.model"
+import { ListService } from "../services/ListService"
+import { AppUtils } from "../utils/utils"
 
 interface User {
   googleId: string
@@ -11,14 +14,19 @@ interface User {
   name: string
   givenName: string
   familyName: string
+  lists: List[]
 }
 
 interface AuthContextProps {
   user: User | undefined
+  loading: boolean
+  setLoading(value: boolean): void
+  googleResponse: GoogleLoginResponse | undefined
   setGoogleResponse(response: GoogleLoginResponse): void
   refreshToken(): void
   signIn(googleResponse: GoogleLoginResponseOffline | GoogleLoginResponse): void
   signOut(): void
+  onAutoLoadFinished(): void
 }
 
 const AuthContext = createContext({} as AuthContextProps)
@@ -27,6 +35,7 @@ export const AuthProvider: React.FC = ({ children }) => {
   const [refreshTokenTiming, setRefreshTokenTiming] = useState(3300000)
   const [googleResponse, setGoogleResponse] = useState<GoogleLoginResponse>()
   const [user, setUser] = useState<User>()
+  const [loading, setLoading] = useState(true)
 
   const refreshToken = async () => {
     if (googleResponse) {
@@ -41,12 +50,26 @@ export const AuthProvider: React.FC = ({ children }) => {
     googleResponse: GoogleLoginResponseOffline | GoogleLoginResponse
   ) => {
     const response = googleResponse as GoogleLoginResponse
+    const user = response.profileObj as User
 
-    setUser(response.profileObj as User)
+    setLoading(true)
+
+    ListService.getUserLists(user.googleId)
+      .then((result) => {
+        user.lists = result
+
+        setGoogleResponse(response)
+        setUser(user)
+      })
+      .finally(() => setLoading(false))
   }
 
   const signOut = () => {
     setUser(undefined)
+  }
+
+  const onAutoLoadFinished = () => {
+    setLoading(false)
   }
 
   useEffect(() => {
@@ -57,10 +80,14 @@ export const AuthProvider: React.FC = ({ children }) => {
     <AuthContext.Provider
       value={{
         user,
+        googleResponse,
+        loading,
+        setLoading,
         setGoogleResponse,
         refreshToken,
         signIn,
         signOut,
+        onAutoLoadFinished,
       }}
     >
       {children}
@@ -69,11 +96,5 @@ export const AuthProvider: React.FC = ({ children }) => {
 }
 
 export const useAuth = () => {
-  const context = useContext(AuthContext)
-
-  if (context == null) {
-    throw new Error("useContext must be used within a Provider")
-  }
-
-  return context
+  return AppUtils.ValidateContext<AuthContextProps>(AuthContext)
 }

@@ -1,6 +1,5 @@
 import React from "react"
 import { Button, ButtonProps } from "../Button/Button"
-import { SelectItemWrapper } from "./select.styled"
 
 export interface SelectItemProps extends ButtonProps {
   closeOnClick?: boolean
@@ -10,11 +9,7 @@ export interface SelectItemProps extends ButtonProps {
 }
 
 export const SelectItem: React.FC<SelectItemProps> = ({
-  closeOnClick = true,
-  selected = false,
   label,
-  value,
-  children,
   ...buttonProps
 }) => {
   return <Button variant="transparent" label={label} {...buttonProps} />

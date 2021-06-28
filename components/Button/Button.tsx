@@ -1,7 +1,5 @@
 import React from "react"
-import { Icon as FeatherIcon } from "react-feather"
 import { Icon } from ".."
-import { Color } from "../../styles/vars.styled"
 import { IconType } from "../Icon/Icon"
 import {
   Typography,
