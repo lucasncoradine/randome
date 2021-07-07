@@ -1,3 +1,4 @@
+import { useRouter } from "next/router"
 import React, { createContext, useEffect, useState } from "react"
 import {
   GoogleLoginResponse,
@@ -5,6 +6,7 @@ import {
 } from "react-google-login"
 import { List } from "../models/List.model"
 import { ListService } from "../services/ListService"
+import { ArrayUtils } from "../utils/arrayUtils"
 import { AppUtils } from "../utils/utils"
 
 interface User {
@@ -23,15 +25,18 @@ interface AuthContextProps {
   setLoading(value: boolean): void
   googleResponse: GoogleLoginResponse | undefined
   setGoogleResponse(response: GoogleLoginResponse): void
-  refreshToken(): void
+  refreshToken(): Promise<void>
   signIn(googleResponse: GoogleLoginResponseOffline | GoogleLoginResponse): void
   signOut(): void
   onAutoLoadFinished(): void
+  updateUserList(): Promise<void>
 }
 
 const AuthContext = createContext({} as AuthContextProps)
 
 export const AuthProvider: React.FC = ({ children }) => {
+  const router = useRouter()
+
   const [refreshTokenTiming, setRefreshTokenTiming] = useState(3300000)
   const [googleResponse, setGoogleResponse] = useState<GoogleLoginResponse>()
   const [user, setUser] = useState<User>()
@@ -50,26 +55,38 @@ export const AuthProvider: React.FC = ({ children }) => {
     googleResponse: GoogleLoginResponseOffline | GoogleLoginResponse
   ) => {
     const response = googleResponse as GoogleLoginResponse
-    const user = response.profileObj as User
+    const newUser = response.profileObj as User
 
     setLoading(true)
 
-    ListService.getUserLists(user.googleId)
+    ListService.getUserLists(newUser.googleId)
       .then((result) => {
-        user.lists = result
+        newUser.lists = ArrayUtils.sortBy("fields.name", result)
 
         setGoogleResponse(response)
-        setUser(user)
+        setUser(newUser)
       })
       .finally(() => setLoading(false))
   }
 
   const signOut = () => {
     setUser(undefined)
+    router.reload()
   }
 
   const onAutoLoadFinished = () => {
     setLoading(false)
+  }
+
+  const updateUserList = async () => {
+    if (user) {
+      const newUser = { ...user }
+
+      const lists = await ListService.getUserLists(newUser.googleId)
+
+      newUser.lists = ArrayUtils.sortBy("fields.name", lists)
+      setUser(newUser)
+    }
   }
 
   useEffect(() => {
@@ -88,6 +105,7 @@ export const AuthProvider: React.FC = ({ children }) => {
         signIn,
         signOut,
         onAutoLoadFinished,
+        updateUserList,
       }}
     >
       {children}

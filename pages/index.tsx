@@ -6,12 +6,12 @@ import { HomePage } from "./Home/HomePage"
 
 export default function Home() {
   return (
-    <AppProvider>
-      <AuthProvider>
+    <AuthProvider>
+      <AppProvider>
         <Container>
           <HomePage />
         </Container>
-      </AuthProvider>
-    </AppProvider>
+      </AppProvider>
+    </AuthProvider>
   )
 }

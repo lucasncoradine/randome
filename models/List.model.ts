@@ -3,7 +3,6 @@ export interface List {
   fields: {
     name: string
     googleID: string
-    itens: string[]
-    itensNames: string[]
+    items: string
   }
 }

@@ -11,4 +11,14 @@ export class ListService {
 
     return result.data as List[]
   }
+
+  static saveList = async (name: string, googleID: string, items: string[]) => {
+    const result = await axios.post("/api/createList", {
+      name,
+      googleID,
+      items,
+    })
+
+    return result.data
+  }
 }

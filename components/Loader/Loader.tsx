@@ -5,12 +5,14 @@ import Image from "next/image"
 
 interface LoaderProps {
   show?: boolean
-  fullscreen?: boolean
+  hideBackground?: boolean
+  showLogo?: boolean
 }
 
 export const Loader: React.FC<LoaderProps> = ({
   show = true,
-  fullscreen = false,
+  hideBackground = false,
+  showLogo = false,
 }) => {
   return (
     <LoaderWrapper
@@ -19,11 +21,13 @@ export const Loader: React.FC<LoaderProps> = ({
       direction="column"
       spacing={2}
       hidden={!show}
-      fullscreen={fullscreen}
+      hideBackground={hideBackground}
     >
-      <GridItem>
-        <Image src="/logo.svg" width={200} height={100} />
-      </GridItem>
+      {showLogo && (
+        <GridItem>
+          <Image src="/logo.svg" width={200} height={100} />
+        </GridItem>
+      )}
 
       <GridItem>
         <LoaderContainer>

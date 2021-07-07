@@ -3,9 +3,7 @@ import { AlertTriangle } from "react-feather"
 import { Grid, GridItem, Icon } from ".."
 import { AlertContainer, AlertIcon } from "./alert.styled"
 
-interface AlertProps {}
-
-export const Alert: React.FC<AlertProps> = ({ children }) => {
+export const Alert: React.FC = ({ children }) => {
   return (
     <AlertContainer>
       <Grid alignItems="center">

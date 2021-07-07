@@ -9,7 +9,11 @@ export const ButtonElement = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 150ms ease-in-out;
+  transition: all 150ms cubic-bezier(0.34, 1.56, 0.64, 1), transform 300ms;
+
+  &:hover {
+    transform: scale(1.03);
+  }
 
   .buttonIcon {
     &--left {
@@ -25,27 +29,13 @@ export const ButtonElement = styled.button`
     }
   }
 
-  &.size {
-    &--normal {
-      padding: 10px 20px;
-      height: 40px;
-      border-radius: 16px;
-    }
-
-    &--large {
-      height: 72px;
-      border-radius: 28px;
-      padding: 8px 35px;
-    }
-  }
-
   &.button {
     &--primary {
       background-color: ${Color.Primary};
       color: ${Color.White};
 
       &:hover {
-        background-color: ${Color.Primary2};
+        background-color: ${darken(0.05, Color.Primary)};
       }
     }
 
@@ -78,10 +68,19 @@ export const ButtonElement = styled.button`
 
     &--terciary {
       background-color: ${Color.GrayLight};
-      color: ${Color.Secondary};
+      color: ${Color.Black};
 
       &:hover {
         background-color: ${darken(0.05, Color.GrayLight)};
+      }
+    }
+
+    &--normal {
+      background-color: transparent;
+      color: ${Color.Black};
+
+      &:hover {
+        background-color: ${Color.GrayLight};
       }
     }
 
@@ -95,6 +94,25 @@ export const ButtonElement = styled.button`
     pointer-events: none;
     cursor: not-allowed;
     pointer-events: none;
+  }
+
+  &.size {
+    &--normal {
+      padding: 16px;
+      height: 48px;
+      border-radius: 16px;
+    }
+
+    &--large {
+      height: 72px;
+      border-radius: 28px;
+      padding: 8px 35px;
+    }
+
+    &--small {
+      border-radius: 12px;
+      padding: 8px;
+    }
   }
 `
 

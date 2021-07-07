@@ -14,10 +14,17 @@ const upAndDown = keyframes`
   }
 `
 
-export const AnimatedEmoji = styled(Typography)`
+export const AnimatedEmoji = styled(Typography)<{ animated: boolean }>`
   animation: ${upAndDown} 1.5s linear infinite;
+  animation: ${(props) => props.animated === false && "none"};
 `
 
 export const Footer = styled(GridItem)`
   padding-top: 8rem;
+`
+
+export const TitleContainer = styled.div`
+  height: 150px;
+  display: flex;
+  align-items: center;
 `

@@ -27,7 +27,7 @@ export const Select: React.FC<SelectProps> = ({
   placeholder,
   hideArrow = false,
   variant = "terciary",
-  listVariant = "transparent-secondary",
+  listVariant = "normal",
   width,
   disabled,
   onChange,
@@ -85,18 +85,21 @@ export const Select: React.FC<SelectProps> = ({
       <SelectList hidden={!open}>
         {React.Children.map(children, (child) => {
           if (child) {
+            // if (isSelectItem(child)) {
             const element = child as React.ReactElement<SelectItemProps>
 
             const selectedChild =
               selected && element.props.value === selected.value
 
-            const clickEvent = () => {
+            const clickEvent = (event: any) => {
               if (element.type === SelectItem) {
                 setSelected({
                   value: element.props.value,
                   label: element.props.label,
                 })
                 setOpen(false)
+              } else {
+                element.props.onClick?.(event)
               }
             }
 
@@ -107,6 +110,9 @@ export const Select: React.FC<SelectProps> = ({
               onClick: clickEvent,
             })
           }
+          // } else {
+          //   return child
+          // }
         })}
       </SelectList>
     </SelectWrapper>

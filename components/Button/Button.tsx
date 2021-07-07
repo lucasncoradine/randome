@@ -13,7 +13,8 @@ export type Variant =
   | "terciary"
   | "transparent"
   | "transparent-secondary"
-type Size = "normal" | "large"
+  | "normal"
+type Size = "normal" | "large" | "small"
 
 export interface ButtonProps {
   label?: string
@@ -23,6 +24,7 @@ export interface ButtonProps {
   disabled?: boolean
   size?: Size
   className?: string
+  type?: "button" | "submit" | undefined
   onClick?(event: React.MouseEvent): void
 }
 
@@ -34,6 +36,7 @@ export const Button: React.FC<ButtonProps> = ({
   disabled,
   size = "normal",
   onClick,
+  type = "button",
   className,
 }) => {
   const classes = `button--${variant} ${
@@ -45,14 +48,19 @@ export const Button: React.FC<ButtonProps> = ({
     large: "h3",
   }
 
+  let iconSize = 24
+
+  if (label || size === "small") iconSize = 20
+
   return (
-    <ButtonElement onClick={onClick} className={classes} disabled={disabled}>
+    <ButtonElement
+      type={type}
+      onClick={onClick}
+      className={classes}
+      disabled={disabled}
+    >
       {leftIcon && (
-        <Icon
-          icon={leftIcon}
-          size={label ? 20 : 24}
-          className="buttonIcon--left"
-        />
+        <Icon icon={leftIcon} size={iconSize} className="buttonIcon--left" />
       )}
 
       {label && (

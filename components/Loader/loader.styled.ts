@@ -1,3 +1,4 @@
+import { rgba } from "polished"
 import styled, { keyframes } from "styled-components"
 import { Grid } from ".."
 import { Color } from "../../styles/vars.styled"
@@ -19,29 +20,22 @@ const AnimationLoader = keyframes`
   }
 `
 
-const handleFullscreen = (fullscreen: boolean) => {
-  if (fullscreen) {
-    return `
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 100%;
-      height: 100%;
-    `
-  }
-}
-
 export const LoaderWrapper = styled(Grid)<{
   hidden: boolean
-  fullscreen: boolean
+  hideBackground: boolean
 }>`
-  ${(props) => handleFullscreen(props.fullscreen)}
-  z-index: 999;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 991;
   opacity: ${(props) => (props.hidden ? "0" : "1")};
   pointer-events: ${(props) => (props.hidden ? "none" : "all")};
   transition: opacity 500ms ease-in-out;
+  backdrop-filter: blur(1px);
   background-color: ${(props) =>
-    props.fullscreen ? Color.White : "transparent"};
+    props.hideBackground ? Color.White : rgba(Color.GrayLight, 0.5)};
 `
 
 export const LoaderContainer = styled.div`
