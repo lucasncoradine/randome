@@ -137,6 +137,7 @@ export const HomePage: React.FC = () => {
               variant="primary"
               label={buttonLabel}
               onClick={getRandomItem}
+              scale
             />
           </GridItem>
         </Grid>
@@ -153,7 +154,7 @@ export const HomePage: React.FC = () => {
                 label="Clique aqui"
                 href="#"
               ></LinkButton>{" "}
-              para criar uma conta e salvá-las
+              para entrar em uma conta Google e salvá-las.
             </Typography>
           </Alert>
         </Footer>

@@ -25,6 +25,7 @@ export interface ButtonProps {
   size?: Size
   className?: string
   type?: "button" | "submit" | undefined
+  scale?: boolean
   onClick?(event: React.MouseEvent): void
 }
 
@@ -37,6 +38,7 @@ export const Button: React.FC<ButtonProps> = ({
   size = "normal",
   onClick,
   type = "button",
+  scale = false,
   className,
 }) => {
   const classes = `button--${variant} ${
@@ -58,6 +60,7 @@ export const Button: React.FC<ButtonProps> = ({
       onClick={onClick}
       className={classes}
       disabled={disabled}
+      scale={scale}
     >
       {leftIcon && (
         <Icon icon={leftIcon} size={iconSize} className="buttonIcon--left" />

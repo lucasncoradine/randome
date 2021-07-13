@@ -15,10 +15,6 @@ export const SelectWrapper = styled.div<{ width?: number }>`
 export const SelectButton = styled(Button)`
   width: 100%;
   justify-content: space-between;
-
-  &:hover {
-    transform: none;
-  }
 `
 
 export const SelectList = styled.div`
@@ -36,17 +32,11 @@ export const SelectList = styled.div`
     width: 100%;
     justify-content: flex-start;
 
-    &:hover {
-      transform: none;
-      transition: none;
-    }
-
     &.selected {
       background-color: ${Color.GrayLight};
 
       &:hover {
         background-color: ${darken(0.05, Color.GrayLight)};
-        transition: none;
       }
     }
 
