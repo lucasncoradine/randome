@@ -11,6 +11,7 @@ interface InputProps {
   errorMessage?: string
   autoFocus?: boolean
   type?: "text" | "password"
+  mandatory?: boolean
   onChange?(value: string): void
   onEnter?(event: React.KeyboardEvent<HTMLInputElement>): void
 }
@@ -22,6 +23,7 @@ export const Input: React.FC<InputProps> = ({
   errorMessage,
   autoFocus = false,
   type = "text",
+  mandatory = false,
   onChange,
   onEnter,
 }) => {
@@ -36,7 +38,7 @@ export const Input: React.FC<InputProps> = ({
       {label && (
         <GridItem>
           <InputLabel variant="p" weight="extrabold">
-            {label}
+            {label} {mandatory && "*"}
           </InputLabel>
         </GridItem>
       )}

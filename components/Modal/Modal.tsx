@@ -57,6 +57,8 @@ export const Modal: React.FC<ModalProps> = ({
                   size="normal"
                   leftIcon={X}
                   onClick={handleClose}
+                  submitOnKeyPress
+                  keyEvent={{ ctrlKey: false, key: "Escape" }}
                 />
               </GridItem>
             )}

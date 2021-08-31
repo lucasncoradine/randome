@@ -8,6 +8,8 @@ interface AppContextProps {
   toggleToast(message: string, variant: ToastVariant): void
   addList(model: ListModel): void
   selectList(list: List): void
+  clearCookies(): void
+  clearSelectedList(): void
   storedLists: List[]
   selectedList: List | null
 }
@@ -29,7 +31,10 @@ export const AppProvider: React.FC = ({ children }) => {
 
   const storeCookies = () => {
     setCookie("lists", storedLists)
-    setCookie("selectedList", selectedList)
+  }
+
+  const clearCookies = () => {
+    setStoredLists([])
   }
 
   const addList = (model: ListModel) => {
@@ -40,13 +45,15 @@ export const AppProvider: React.FC = ({ children }) => {
   }
 
   const selectList = (list: List) => {
-    console.log(list)
     setSelectedList(list)
+  }
+
+  const clearSelectedList = () => {
+    setSelectedList(null)
   }
 
   useEffect(() => {
     setStoredLists(getCookie("lists") || [])
-    setSelectedList(getCookie("selectedList") || null)
   }, [])
 
   useEffect(() => {
@@ -67,6 +74,8 @@ export const AppProvider: React.FC = ({ children }) => {
         toggleToast,
         addList,
         selectList,
+        clearCookies,
+        clearSelectedList,
         storedLists,
         selectedList,
       }}

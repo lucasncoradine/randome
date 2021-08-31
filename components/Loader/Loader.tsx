@@ -2,6 +2,8 @@ import React from "react"
 import { GridItem } from ".."
 import { LoaderContainer, LoaderRipple, LoaderWrapper } from "./loader.styled"
 import Image from "next/image"
+import { Typography } from "../Typography/Typography"
+import { useApp } from "../../contexts/AppContext"
 
 interface LoaderProps {
   show?: boolean
@@ -19,7 +21,7 @@ export const Loader: React.FC<LoaderProps> = ({
       alignItems="center"
       justifyContent="center"
       direction="column"
-      spacing={2}
+      spacing={1}
       hidden={!show}
       hideBackground={hideBackground}
     >

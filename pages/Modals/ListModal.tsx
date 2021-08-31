@@ -19,12 +19,27 @@ import { AppUtils } from "../../utils/utils"
 
 export const ListModal: React.FC<ModalProps> = (props) => {
   const { user, updateUserList } = useAuth()
-  const { toggleToast, addList } = useApp()
+  const { toggleToast, addList, storedLists } = useApp()
 
   const [listName, setListName] = useState("")
   const [newItem, setNewItem] = useState("")
   const [items, setItems] = useState<string[]>([])
   const [showLoader, setShowLoader] = useState(false)
+  const [enableButton, setEnableButton] = useState(false)
+  const lists = [...storedLists, ...(user?.lists || [])]
+
+  const validateList = (): string | null => {
+    const exists = lists.find((list) => list.fields.name === listName)
+
+    if (exists) return "Já existe uma lista com o mesmo nome."
+
+    return null
+  }
+
+  const handleListNameChange = (value: string) => {
+    setListName(value)
+    setEnableButton(!!value)
+  }
 
   const addItem = () => {
     if (newItem) {
@@ -41,6 +56,14 @@ export const ListModal: React.FC<ModalProps> = (props) => {
   }
 
   const saveList = async () => {
+    const validate = validateList()
+
+    if (validate) {
+      toggleToast(validate, "error")
+
+      return
+    }
+
     setShowLoader(true)
 
     let promise = Promise.resolve(
@@ -75,8 +98,8 @@ export const ListModal: React.FC<ModalProps> = (props) => {
             label="Nome"
             placeholder="Nome da Lista"
             value={listName}
-            onChange={(value) => setListName(value)}
-            autoFocus
+            onChange={(value) => handleListNameChange(value)}
+            mandatory
             type="text"
           />
         </GridItem>
@@ -141,6 +164,8 @@ export const ListModal: React.FC<ModalProps> = (props) => {
                 variant="primary"
                 label="Salvar"
                 onClick={() => saveList()}
+                disabled={!enableButton}
+                submitOnKeyPress
               />
             </GridItem>
           </Grid>

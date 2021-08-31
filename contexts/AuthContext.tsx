@@ -8,6 +8,7 @@ import { List } from "../models/List.model"
 import { ListService } from "../services/ListService"
 import { ArrayUtils } from "../utils/arrayUtils"
 import { AppUtils } from "../utils/utils"
+import { useApp } from "./AppContext"
 
 interface User {
   googleId: string
@@ -36,6 +37,7 @@ const AuthContext = createContext({} as AuthContextProps)
 
 export const AuthProvider: React.FC = ({ children }) => {
   const router = useRouter()
+  const { storedLists, clearCookies } = useApp()
 
   const [refreshTokenTiming, setRefreshTokenTiming] = useState(3300000)
   const [googleResponse, setGoogleResponse] = useState<GoogleLoginResponse>()
@@ -60,8 +62,17 @@ export const AuthProvider: React.FC = ({ children }) => {
     setLoading(true)
 
     ListService.getUserLists(newUser.googleId)
-      .then((result) => {
+      .then(async (result) => {
         newUser.lists = ArrayUtils.sortBy("fields.name", result)
+
+        const sessionLists = [...storedLists]
+        sessionLists.map((list) => (list.fields.googleID = newUser.googleId))
+
+        if (sessionLists?.length > 0) {
+          await ListService.syncLists(sessionLists)
+
+          clearCookies()
+        }
 
         setGoogleResponse(response)
         setUser(newUser)
@@ -81,7 +92,6 @@ export const AuthProvider: React.FC = ({ children }) => {
   const updateUserList = async () => {
     if (user) {
       const newUser = { ...user }
-
       const lists = await ListService.getUserLists(newUser.googleId)
 
       newUser.lists = ArrayUtils.sortBy("fields.name", lists)

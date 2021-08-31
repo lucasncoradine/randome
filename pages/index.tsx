@@ -7,14 +7,14 @@ import { HomePage } from "./Home/HomePage"
 
 export default function Home() {
   return (
-    <AuthProvider>
-      <CookiesProvider>
-        <AppProvider>
+    <CookiesProvider>
+      <AppProvider>
+        <AuthProvider>
           <Container>
             <HomePage />
           </Container>
-        </AppProvider>
-      </CookiesProvider>
-    </AuthProvider>
+        </AuthProvider>
+      </AppProvider>
+    </CookiesProvider>
   )
 }

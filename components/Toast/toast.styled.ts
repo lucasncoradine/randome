@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import { boxShadow3, Color } from "../../styles/vars.styled"
+import { lighten } from "polished"
 
 export const ToastContainer = styled.div<{ show: boolean }>`
   position: absolute;
@@ -15,17 +16,17 @@ export const ToastContainer = styled.div<{ show: boolean }>`
 
   &.toast {
     &--info {
-      background-color: ${Color.Support};
+      background-color: ${lighten(0.2, Color.Support)};
       color: ${Color.Success3};
     }
 
     &--success {
-      background-color: ${Color.Success};
+      background-color: ${lighten(0.25, Color.Success)};
       color: ${Color.Success3};
     }
 
     &--error {
-      background-color: ${Color.Error};
+      background-color: ${lighten(0.2, Color.Error)};
       color: ${Color.Error3};
     }
   }

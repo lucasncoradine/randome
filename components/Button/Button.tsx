@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useRef } from "react"
 import { Icon } from ".."
 import { IconType } from "../Icon/Icon"
 import {
@@ -16,6 +16,12 @@ export type Variant =
   | "normal"
 type Size = "normal" | "large" | "small"
 
+type KeyEvent = {
+  ctrlKey?: boolean
+  shiftKey?: boolean
+  key: string
+}
+
 export interface ButtonProps {
   label?: string
   leftIcon?: IconType
@@ -26,7 +32,9 @@ export interface ButtonProps {
   className?: string
   type?: "button" | "submit" | undefined
   scale?: boolean
-  onClick?(event: React.MouseEvent): void
+  onClick?(): void
+  submitOnKeyPress?: boolean
+  keyEvent?: KeyEvent
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -39,8 +47,12 @@ export const Button: React.FC<ButtonProps> = ({
   onClick,
   type = "button",
   scale = false,
+  submitOnKeyPress = false,
+  keyEvent = { ctrlKey: false, shiftKey: true, key: "Enter" },
   className,
 }) => {
+  const buttonRef = useRef<HTMLButtonElement>(null)
+
   const classes = `button--${variant} ${
     leftIcon && "button--icon"
   } size--${size} ${className}`
@@ -54,10 +66,28 @@ export const Button: React.FC<ButtonProps> = ({
 
   if (label || size === "small") iconSize = 20
 
+  const handleClick = () => {
+    onClick?.()
+  }
+
+  useEffect(() => {
+    if (submitOnKeyPress && !disabled) {
+      document.addEventListener("keydown", (e) => {
+        const ctrlPress = keyEvent.ctrlKey ? e.ctrlKey : true
+        const shiftPress = keyEvent.shiftKey ? e.shiftKey : true
+
+        if (ctrlPress && shiftPress && e.key === keyEvent.key) {
+          buttonRef.current?.click()
+        }
+      })
+    }
+  }, [disabled])
+
   return (
     <ButtonElement
+      ref={buttonRef}
       type={type}
-      onClick={onClick}
+      onClick={handleClick}
       className={classes}
       disabled={disabled}
       scale={scale.toString()}

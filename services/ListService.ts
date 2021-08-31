@@ -21,4 +21,10 @@ export class ListService {
 
     return result.data
   }
+
+  static syncLists = async (lists: List[]) => {
+    const result = await axios.post("/api/syncLists", lists)
+
+    return result.data
+  }
 }

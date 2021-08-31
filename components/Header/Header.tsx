@@ -1,5 +1,5 @@
 import Image from "next/image"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Moon, Plus, Settings } from "react-feather"
 import { Button, Grid, GridItem, Select, SelectItem } from ".."
 import { LoginButton, LogoutButton } from "../../Auth/GoogleAuth"
@@ -8,19 +8,24 @@ import { useAuth } from "../../contexts/AuthContext"
 import { ListModal } from "../../pages/Modals/ListModal"
 import { HeaderContainer } from "./header.styled"
 import Link from "next/link"
+import { List } from "../../models/List.model"
 
 export const Header: React.FC = () => {
   const { storedLists, selectedList, selectList } = useApp()
   const { user } = useAuth()
   const [modalOpen, setModalOpen] = useState(false)
-
-  const lists = user ? user.lists : storedLists
+  const [lists, setLists] = useState<List[]>([])
 
   const handleListChange = (selected: { value: string; label: string }) => {
     const list = lists.find((x) => x.id === selected.value)
 
     if (list) selectList(list)
   }
+
+  useEffect(() => {
+    const userLists = user ? user.lists : []
+    setLists([...storedLists, ...userLists])
+  }, [storedLists, user])
 
   return (
     <HeaderContainer>
@@ -55,6 +60,8 @@ export const Header: React.FC = () => {
                   label="Nova lista"
                   leftIcon={Plus}
                   onClick={() => setModalOpen(true)}
+                  submitOnKeyPress
+                  keyEvent={{ shiftKey: true, key: "N" }}
                 />
               </Select>
             </GridItem>
