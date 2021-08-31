@@ -23,14 +23,14 @@
     "prettier/prettier": ["error", { "endOfLine": "auto" }],
     "react/jsx-filename-extension": [
       "warn",
-      { "extensions": [".js", ".jsx", "ts", ".tsx"] }
+      { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
     ],
     "import/prefer-default-export": "off",
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": ["error"],
     "semi": "off",
     "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": ["error"],
+    "@typescript-eslint/no-unused-vars": ["warn"],
     "react/prop-types": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off"
   }

@@ -7,23 +7,30 @@ import { useApp } from "../../contexts/AppContext"
 import { useAuth } from "../../contexts/AuthContext"
 import { ListModal } from "../../pages/Modals/ListModal"
 import { HeaderContainer } from "./header.styled"
+import Link from "next/link"
 
 export const Header: React.FC = () => {
-  const { selectedList, setSelectedList } = useApp()
+  const { storedLists, selectedList, selectList } = useApp()
   const { user } = useAuth()
   const [modalOpen, setModalOpen] = useState(false)
 
-  const handleListChange = (selected: { value: string; label: string }) => {
-    const list = user?.lists.find((x) => x.id === selected.value)
+  const lists = user ? user.lists : storedLists
 
-    if (list) setSelectedList(list)
+  const handleListChange = (selected: { value: string; label: string }) => {
+    const list = lists.find((x) => x.id === selected.value)
+
+    if (list) selectList(list)
   }
 
   return (
     <HeaderContainer>
       <Grid alignItems="center">
         <GridItem col={6}>
-          <Image src="/logo.svg" width={240} height={70} />
+          <Link href="/">
+            <a>
+              <Image src="/logo.svg" width={240} height={70} />
+            </a>
+          </Link>
         </GridItem>
 
         <GridItem col={6}>
@@ -34,7 +41,7 @@ export const Header: React.FC = () => {
                 placeholder="Selecionar Lista"
                 onChange={handleListChange}
               >
-                {user?.lists.map((list) => (
+                {lists.map((list) => (
                   <SelectItem
                     selected={selectedList?.id === list.id}
                     key={list.id}
@@ -78,7 +85,7 @@ export const Header: React.FC = () => {
           title="Nova Lista"
           open={modalOpen}
           onClose={() => setModalOpen(false)}
-          size="lg"
+          size="md"
         />
       )}
     </HeaderContainer>

@@ -85,7 +85,6 @@ export const Select: React.FC<SelectProps> = ({
       <SelectList hidden={!open}>
         {React.Children.map(children, (child) => {
           if (child) {
-            // if (isSelectItem(child)) {
             const element = child as React.ReactElement<SelectItemProps>
 
             const selectedChild =
@@ -110,9 +109,6 @@ export const Select: React.FC<SelectProps> = ({
               onClick: clickEvent,
             })
           }
-          // } else {
-          //   return child
-          // }
         })}
       </SelectList>
     </SelectWrapper>

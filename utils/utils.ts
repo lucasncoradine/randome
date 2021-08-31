@@ -1,4 +1,5 @@
 import React, { useContext } from "react"
+import { v4 } from "uuid"
 
 export class AppUtils {
   static ValidateContext<T>(reactContext: React.Context<T>) {
@@ -9,5 +10,16 @@ export class AppUtils {
     }
 
     return context
+  }
+
+  static listFromNotion = (list: string) => {
+    return list
+      .split("\n")
+      .map((x) => x.replace("- ", ""))
+      .join(";")
+  }
+
+  static generateUUID = () => {
+    return v4()
   }
 }

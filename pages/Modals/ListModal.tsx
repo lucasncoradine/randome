@@ -13,11 +13,13 @@ import {
 import { ModalProps } from "../../components/Modal/Modal"
 import { useApp } from "../../contexts/AppContext"
 import { useAuth } from "../../contexts/AuthContext"
+import { ListModel } from "../../models/List.model"
 import { ListService } from "../../services/ListService"
+import { AppUtils } from "../../utils/utils"
 
 export const ListModal: React.FC<ModalProps> = (props) => {
   const { user, updateUserList } = useAuth()
-  const { toggleToast } = useApp()
+  const { toggleToast, addList } = useApp()
 
   const [listName, setListName] = useState("")
   const [newItem, setNewItem] = useState("")
@@ -41,13 +43,15 @@ export const ListModal: React.FC<ModalProps> = (props) => {
   const saveList = async () => {
     setShowLoader(true)
 
-    let promise
+    let promise = Promise.resolve(
+      addList(new ListModel(AppUtils.generateUUID(), listName, items))
+    )
 
     if (user) promise = ListService.saveList(listName, user.googleId, items)
 
     Promise.resolve(promise)
       .then(async () => {
-        await updateUserList()
+        if (user) await updateUserList()
 
         toggleToast("Lista criada com sucesso!", "success")
       })

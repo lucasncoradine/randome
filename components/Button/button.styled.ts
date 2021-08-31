@@ -2,7 +2,7 @@ import styled from "styled-components"
 import { Color } from "../../styles/vars.styled"
 import { darken } from "polished"
 
-export const ButtonElement = styled.button<{ scale?: boolean }>`
+export const ButtonElement = styled.button<{ scale: string }>`
   outline: none;
   border: none;
   cursor: pointer;
@@ -13,7 +13,7 @@ export const ButtonElement = styled.button<{ scale?: boolean }>`
     transform 300ms;
 
   &:hover {
-    transform: ${(props) => (props.scale ? "scale(1.03)" : "none")};
+    transform: ${(props) => (props.scale === "true" ? "scale(1.03)" : "none")};
   }
 
   .buttonIcon {

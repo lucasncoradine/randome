@@ -60,7 +60,7 @@ export const Button: React.FC<ButtonProps> = ({
       onClick={onClick}
       className={classes}
       disabled={disabled}
-      scale={scale}
+      scale={scale.toString()}
     >
       {leftIcon && (
         <Icon icon={leftIcon} size={iconSize} className="buttonIcon--left" />

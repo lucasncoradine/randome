@@ -5,7 +5,6 @@ import {
   Grid,
   GridItem,
   Header,
-  LinkButton,
   Loader,
   Typography,
 } from "../../components"
@@ -17,7 +16,7 @@ import { ArrayUtils } from "../../utils/arrayUtils"
 import { AnimatedEmoji, Footer, TitleContainer } from "./home.styled"
 
 enum Titles {
-  InitSort = "Clique no botão abaixo para começar o sorteio",
+  NotStarted = "Clique no botão abaixo para começar o sorteio",
   NoItems = "Essa lista não possui nenhum item para ser sorteado 😔",
   Sorting = "Sorteando...",
   NoListSelected = "Selecione uma lista para continuar",
@@ -25,7 +24,7 @@ enum Titles {
 
 export const HomePage: React.FC = () => {
   const initialEmoji = "👇"
-  const initialSortTime = 5 // TODO: Pegar das configurações do usuário
+  const initialSortTime = 5 // TODO: Pegar das configurações do usuário (segundos)
   const emojis = "🎈🎞🎁🖼🎪👑⚽⚾🏀🏐🏈🎳🎱🛶🤿⛸🏓🏆🎯🎮🕹🎲🎸🎷💣"
 
   const timerRef = useRef<any>(null)
@@ -35,47 +34,58 @@ export const HomePage: React.FC = () => {
   const { user, loading } = useAuth()
 
   const [winner, setWinner] = useState("")
-  const [title, setTitle] = useState<string>(Titles.InitSort)
+  const [title, setTitle] = useState<string>(Titles.NotStarted)
   const [emoji, setEmoji] = useState(initialEmoji)
   const [sortTime, setSortTime] = useState(initialSortTime)
   const [isSorting, setIsSorting] = useState(false)
   const [buttonLabel, setButtonLabel] = useState("Iniciar sorteio")
 
-  const validateList = (): boolean => {
-    return !!(selectedList && selectedList.fields.items)
-  }
+  const validSelectedList = !!(selectedList && selectedList.fields?.items)
 
   const validateTitle = () => {
     if (selectedList) {
-      if (selectedList.fields.items) setTitle(Titles.InitSort)
-      else setTitle(Titles.NoItems)
+      if (selectedList.fields.items) {
+        setTitle(Titles.NotStarted)
+        setEmoji(initialEmoji)
+      } else setTitle(Titles.NoItems)
     } else {
       setTitle(Titles.NoListSelected)
     }
   }
 
-  const getRandomItem = () => {
+  const initSort = () => {
     if (selectedList) {
+      setTitle("")
+      setEmoji("")
       setIsSorting(true)
     }
   }
 
   useEffect(() => {
     if (isSorting) {
-      setTitle(Titles.Sorting)
+      setButtonLabel("Sorteando...")
 
       timerRef.current = setInterval(() => {
-        if (selectedList)
-          setWinner(ArrayUtils.getRandom(selectedList.fields.items.split(";")))
+        if (validSelectedList) {
+          const winnerValue = ArrayUtils.getRandom(
+            selectedList.fields.items.split(";")
+          )
+
+          setWinner(winnerValue)
+        }
 
         setSortTime((time) => time - 1)
       }, 1000)
 
       emojiTimerRef.current = setInterval(() => {
-        const randomEmoji = ArrayUtils.getRandom(Array.from(emojis))
+        if (selectedList) {
+          const randomValue = ArrayUtils.getRandom(
+            selectedList.fields.items.split(";")
+          )
 
-        setEmoji(randomEmoji)
-      }, 120)
+          setTitle(randomValue)
+        }
+      }, 100)
     }
 
     return () => {
@@ -88,14 +98,19 @@ export const HomePage: React.FC = () => {
     if (sortTime === 0) {
       setIsSorting(false)
       setSortTime(initialSortTime)
-      setEmoji("🎉")
-      setTitle(winner)
       setButtonLabel("Novo sorteio")
     }
   }, [sortTime])
 
   useEffect(() => {
+    clearInterval(timerRef.current)
+    clearInterval(emojiTimerRef.current)
+
     validateTitle()
+    setWinner("")
+    setSortTime(initialSortTime)
+    setIsSorting(false)
+    setButtonLabel("Iniciar sorteio")
   }, [selectedList])
 
   return (
@@ -122,7 +137,7 @@ export const HomePage: React.FC = () => {
             </TitleContainer>
           </GridItem>
 
-          {validateList() && (
+          {validSelectedList && (
             <GridItem>
               <AnimatedEmoji animated={emoji === initialEmoji} variant="h1">
                 {emoji}
@@ -132,11 +147,11 @@ export const HomePage: React.FC = () => {
 
           <GridItem>
             <Button
-              disabled={!validateList()}
+              disabled={!validSelectedList || isSorting}
               size="large"
               variant="primary"
               label={buttonLabel}
-              onClick={getRandomItem}
+              onClick={initSort}
               scale
             />
           </GridItem>
@@ -149,12 +164,7 @@ export const HomePage: React.FC = () => {
             <Typography>
               As configurações definidas por você não estão sendo salvas.
               <br />
-              <LinkButton
-                color={Color.Secondary3}
-                label="Clique aqui"
-                href="#"
-              ></LinkButton>{" "}
-              para entrar em uma conta Google e salvá-las.
+              Entre com uma conta Google e salvá-las.
             </Typography>
           </Alert>
         </Footer>
