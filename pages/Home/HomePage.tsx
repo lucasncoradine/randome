@@ -1,19 +1,17 @@
-import React, { useEffect, useRef, useState } from "react"
 import {
   Alert,
   Button,
+  Confetti,
   Grid,
   GridItem,
   Header,
   Loader,
   Typography,
-} from "../../components"
-import { Confetti } from "../../components/Particles/Confetti/Confetti"
-import { useApp } from "../../contexts/AppContext"
-import { useAuth } from "../../contexts/AuthContext"
-import { Color } from "../../styles/vars.styled"
-import { ArrayUtils } from "../../utils/arrayUtils"
-import { AnimatedEmoji, Footer, TitleContainer } from "./home.styled"
+} from "@components"
+import { useApp, useAuth } from "@contexts"
+import { AnimatedEmoji, Color, Footer, TitleContainer } from "@styles"
+import { ArrayUtils } from "@utils"
+import React, { useEffect, useRef, useState } from "react"
 
 enum Titles {
   NotStarted = "Clique no botão abaixo para começar o sorteio",
@@ -25,7 +23,7 @@ enum Titles {
 export const HomePage: React.FC = () => {
   const initialEmoji = "👇"
   const initialSortTime = 5 // TODO: Pegar das configurações do usuário (segundos)
-  const emojis = "🎈🎞🎁🖼🎪👑⚽⚾🏀🏐🏈🎳🎱🛶🤿⛸🏓🏆🎯🎮🕹🎲🎸🎷💣"
+  // const emojis = "🎈🎞🎁🖼🎪👑⚽⚾🏀🏐🏈🎳🎱🛶🤿⛸🏓🏆🎯🎮🕹🎲🎸🎷💣"
 
   const timerRef = useRef<any>(null)
   const emojiTimerRef = useRef<any>(null)
@@ -66,7 +64,7 @@ export const HomePage: React.FC = () => {
       setButtonLabel("Sorteando...")
 
       timerRef.current = setInterval(() => {
-        if (validSelectedList) {
+        if (validSelectedList && selectedList !== null) {
           const winnerValue = ArrayUtils.getRandom(
             selectedList.fields.items.split(";")
           )
@@ -172,3 +170,5 @@ export const HomePage: React.FC = () => {
     </Grid>
   )
 }
+
+export default HomePage

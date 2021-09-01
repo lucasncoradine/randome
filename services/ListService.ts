@@ -1,5 +1,5 @@
 import axios from "axios"
-import { List } from "../models/List.model"
+import { List } from "@models"
 
 export class ListService {
   static getUserLists = async (googleID: string) => {

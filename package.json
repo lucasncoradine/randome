@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "create-component": "node scripts/create-component",
+    "create-page": "node scripts/create-page"
   },
   "dependencies": {
     "airtable": "^0.11.1",

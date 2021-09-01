@@ -1,12 +1,19 @@
 import React from "react"
-import { Color } from "../../styles/vars.styled"
+import { Color } from "@styles"
 import { TypographyElement } from "./typography.styled"
 
-export type Variant = "h1" | "h2" | "h3" | "h4" | "p" | "small" | "span"
+export type TypographyVariant =
+  | "h1"
+  | "h2"
+  | "h3"
+  | "h4"
+  | "p"
+  | "small"
+  | "span"
 type Weight = "regular" | "bold" | "extrabold"
 
 export interface TypographyProps {
-  variant?: Variant
+  variant?: TypographyVariant
   weight?: Weight
   color?: Color
   textAlign?: "left" | "center" | "right"

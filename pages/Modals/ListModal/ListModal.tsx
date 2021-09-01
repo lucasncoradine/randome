@@ -1,5 +1,3 @@
-import React, { useState } from "react"
-import { Plus } from "react-feather"
 import {
   Button,
   CardItem,
@@ -8,14 +6,15 @@ import {
   Input,
   Loader,
   Modal,
+  ModalProps,
   Typography,
-} from "../../components"
-import { ModalProps } from "../../components/Modal/Modal"
-import { useApp } from "../../contexts/AppContext"
-import { useAuth } from "../../contexts/AuthContext"
-import { ListModel } from "../../models/List.model"
-import { ListService } from "../../services/ListService"
-import { AppUtils } from "../../utils/utils"
+} from "@components"
+import { useApp, useAuth } from "@contexts"
+import React, { useState } from "react"
+import { Plus } from "react-feather"
+import { ListModel } from "@models"
+import { ListService } from "@services"
+import { AppUtils } from "@utils"
 
 export const ListModal: React.FC<ModalProps> = (props) => {
   const { user, updateUserList } = useAuth()
@@ -26,7 +25,7 @@ export const ListModal: React.FC<ModalProps> = (props) => {
   const [items, setItems] = useState<string[]>([])
   const [showLoader, setShowLoader] = useState(false)
   const [enableButton, setEnableButton] = useState(false)
-  const lists = [...storedLists, ...(user?.lists || [])]
+  const lists = [...(storedLists || []), ...(user?.lists || [])]
 
   const validateList = (): string | null => {
     const exists = lists.find((list) => list.fields.name === listName)
@@ -174,3 +173,5 @@ export const ListModal: React.FC<ModalProps> = (props) => {
     </Modal>
   )
 }
+
+export default ListModal

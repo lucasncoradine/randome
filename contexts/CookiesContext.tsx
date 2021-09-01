@@ -1,5 +1,5 @@
 import React, { createContext } from "react"
-import { AppUtils } from "../utils/utils"
+import { AppUtils } from "@utils"
 import Cookies from "universal-cookie"
 
 interface CookiesContextProps {

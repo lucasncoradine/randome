@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { Color } from "../../styles/vars.styled"
+import { Color } from "@styles"
 import { darken } from "polished"
 
 export const ButtonElement = styled.button<{ scale: string }>`

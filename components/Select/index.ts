@@ -1,2 +1,2 @@
-export { Select } from "./Select"
-export { SelectItem } from "./SelectItem"
+export * from "./Select"
+export * from "./SelectItem"

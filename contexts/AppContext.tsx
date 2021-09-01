@@ -1,8 +1,8 @@
+import { Toast, ToastProps, ToastVariant } from "@components"
+import { useCookies } from "@contexts"
+import { List, ListModel } from "@models"
+import { AppUtils } from "@utils"
 import React, { createContext, useEffect, useState } from "react"
-import { Toast, ToastProps, ToastVariant } from "../components/Toast/Toast"
-import { List, ListModel } from "../models/List.model"
-import { AppUtils } from "../utils/utils"
-import { useCookies } from "./CookiesContext"
 
 interface AppContextProps {
   toggleToast(message: string, variant: ToastVariant): void

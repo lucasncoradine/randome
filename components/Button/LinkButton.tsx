@@ -1,6 +1,6 @@
 import React from "react"
 import { Typography } from ".."
-import { Color } from "../../styles/vars.styled"
+import { Color } from "@styles"
 import { LinkButtonElement } from "./button.styled"
 
 interface LinkButtonProps {

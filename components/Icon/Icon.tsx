@@ -1,6 +1,6 @@
 import React from "react"
 import { Icon as FeatherIcon } from "react-feather"
-import { Color } from "../../styles/vars.styled"
+import { Color } from "@styles"
 import { IconWrapper } from "./icon.styled"
 import Image from "next/image"
 

@@ -1,7 +1,6 @@
+import { Grid, GridItem, Typography } from "@components"
+import { Color } from "@styles"
 import React from "react"
-import { Color } from "../../styles/vars.styled"
-import { Grid, GridItem } from "../Grid"
-import { Typography } from "../Typography/Typography"
 import { InputElement, InputLabel, InputMessage } from "./input.styled"
 
 interface InputProps {

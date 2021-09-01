@@ -1,13 +1,8 @@
+import { Icon, IconType, Typography, TypographyVariant } from "@components"
 import React, { useEffect, useRef } from "react"
-import { Icon } from ".."
-import { IconType } from "../Icon/Icon"
-import {
-  Typography,
-  Variant as TypographyVariant,
-} from "../Typography/Typography"
 import { ButtonElement } from "./button.styled"
 
-export type Variant =
+export type ButtonVariant =
   | "primary"
   | "secondary"
   | "terciary"
@@ -26,7 +21,7 @@ export interface ButtonProps {
   label?: string
   leftIcon?: IconType
   rightIcon?: IconType
-  variant?: Variant
+  variant?: ButtonVariant
   disabled?: boolean
   size?: Size
   className?: string

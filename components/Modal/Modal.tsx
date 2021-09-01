@@ -1,8 +1,6 @@
+import { Button, Grid, GridItem, Typography } from "@components"
 import React, { useEffect, useState } from "react"
 import { X } from "react-feather"
-import { Button } from "../Button"
-import { Grid, GridItem } from "../Grid"
-import { Typography } from "../Typography/Typography"
 import {
   ModalBody,
   ModalContainer,

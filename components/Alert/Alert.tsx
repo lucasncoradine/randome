@@ -1,6 +1,6 @@
 import React from "react"
 import { AlertTriangle } from "react-feather"
-import { Grid, GridItem, Icon } from ".."
+import { Grid, GridItem, Icon } from "@components"
 import { AlertContainer, AlertIcon } from "./alert.styled"
 
 export const Alert: React.FC = ({ children }) => {

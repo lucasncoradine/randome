@@ -1,6 +1,6 @@
 import styled from "styled-components"
-import { Color } from "../../styles/vars.styled"
-import { GridItem } from "../Grid/GridItem"
+import { Color } from "@styles"
+import { GridItem } from "@components"
 
 export const AlertContainer = styled.div`
   display: flex;

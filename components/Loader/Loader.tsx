@@ -1,9 +1,7 @@
-import React from "react"
-import { GridItem } from ".."
-import { LoaderContainer, LoaderRipple, LoaderWrapper } from "./loader.styled"
 import Image from "next/image"
-import { Typography } from "../Typography/Typography"
-import { useApp } from "../../contexts/AppContext"
+import React from "react"
+import { GridItem } from "@components"
+import { LoaderContainer, LoaderRipple, LoaderWrapper } from "./loader.styled"
 
 interface LoaderProps {
   show?: boolean

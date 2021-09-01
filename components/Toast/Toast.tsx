@@ -1,7 +1,6 @@
+import { Grid, GridItem, Icon } from "@components"
 import React from "react"
 import { Check, Info, XOctagon } from "react-feather"
-import { Grid, GridItem } from "../Grid"
-import { Icon } from "../Icon/Icon"
 import { ToastContainer } from "./toast.styled"
 
 export type ToastVariant = "info" | "success" | "error"

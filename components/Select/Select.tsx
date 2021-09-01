@@ -1,9 +1,12 @@
+import {
+  ButtonVariant,
+  IconType,
+  SelectItem,
+  SelectItemProps,
+} from "@components"
 import React, { cloneElement, useEffect, useRef, useState } from "react"
 import { ChevronDown } from "react-feather"
-import { Variant } from "../Button/Button"
-import { IconType } from "../Icon/Icon"
 import { SelectButton, SelectList, SelectWrapper } from "./select.styled"
-import { SelectItem, SelectItemProps } from "./SelectItem"
 
 type Selected = {
   value: string | number
@@ -14,8 +17,8 @@ interface SelectProps {
   icon?: IconType
   placeholder?: string
   hideArrow?: boolean
-  variant?: Variant
-  listVariant?: Variant
+  variant?: ButtonVariant
+  listVariant?: ButtonVariant
   width?: number
   type?: "button" | "select"
   disabled?: boolean
@@ -90,7 +93,7 @@ export const Select: React.FC<SelectProps> = ({
             const selectedChild =
               selected && element.props.value === selected.value
 
-            const clickEvent = (event: any) => {
+            const clickEvent = () => {
               if (element.type === SelectItem) {
                 setSelected({
                   value: element.props.value,
@@ -98,7 +101,7 @@ export const Select: React.FC<SelectProps> = ({
                 })
                 setOpen(false)
               } else {
-                element.props.onClick?.(event)
+                element.props.onClick?.()
               }
             }
 

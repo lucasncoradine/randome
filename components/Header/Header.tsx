@@ -1,14 +1,13 @@
+import { useApp, useAuth } from "@contexts"
 import Image from "next/image"
+import Link from "next/link"
 import React, { useEffect, useState } from "react"
 import { Moon, Plus, Settings } from "react-feather"
 import { Button, Grid, GridItem, Select, SelectItem } from ".."
 import { LoginButton, LogoutButton } from "../../Auth/GoogleAuth"
-import { useApp } from "../../contexts/AppContext"
-import { useAuth } from "../../contexts/AuthContext"
-import { ListModal } from "../../pages/Modals/ListModal"
+import { List } from "@models"
+import { ListModal } from "../../pages/Modals/ListModal/ListModal"
 import { HeaderContainer } from "./header.styled"
-import Link from "next/link"
-import { List } from "../../models/List.model"
 
 export const Header: React.FC = () => {
   const { storedLists, selectedList, selectList } = useApp()

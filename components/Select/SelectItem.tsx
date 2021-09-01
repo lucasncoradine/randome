@@ -1,6 +1,5 @@
 import React from "react"
 import { Button, ButtonProps } from "../Button/Button"
-
 export interface SelectItemProps extends ButtonProps {
   closeOnClick?: boolean
   selected?: boolean

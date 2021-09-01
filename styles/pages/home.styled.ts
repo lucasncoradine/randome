@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components"
-import { GridItem, Typography } from "../../components"
+import { GridItem, Typography } from "@components"
 
 const upAndDown = keyframes`
   0% {
@@ -28,3 +28,5 @@ export const TitleContainer = styled.div`
   display: flex;
   align-items: center;
 `
+
+export default {}

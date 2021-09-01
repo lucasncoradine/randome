@@ -1,14 +1,13 @@
+import { useApp } from "@contexts"
+import { List } from "@models"
+import { ListService } from "@services"
+import { AppUtils, ArrayUtils } from "@utils"
 import { useRouter } from "next/router"
 import React, { createContext, useEffect, useState } from "react"
 import {
   GoogleLoginResponse,
   GoogleLoginResponseOffline,
 } from "react-google-login"
-import { List } from "../models/List.model"
-import { ListService } from "../services/ListService"
-import { ArrayUtils } from "../utils/arrayUtils"
-import { AppUtils } from "../utils/utils"
-import { useApp } from "./AppContext"
 
 interface User {
   googleId: string
