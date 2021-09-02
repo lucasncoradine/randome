@@ -41,7 +41,7 @@ fs.readFile("./components/index.ts", "utf8", (err) => {
     throw err
   }
 
-  const fileContent = `export { ${name} } from ":./${name}/${name}"\n`
+  const fileContent = `export { ${name} } from "./${name}/${name}"\n`
 
   fs.appendFile(`./components/index.ts`, fileContent, writeFileErrorHandler)
 })

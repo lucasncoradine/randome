@@ -22,4 +22,21 @@ export class AppUtils {
   static generateUUID = () => {
     return v4()
   }
+
+  static csvToStringArray = async (files: File[], separator?: string) => {
+    let result: string[] = []
+
+    if (files.length > 0) {
+      await Promise.all(
+        files.map(async (file) => {
+          const text = await file.text()
+          const items = text.split(separator || ";")
+
+          result = [...result, ...items]
+        })
+      )
+    }
+
+    return result
+  }
 }

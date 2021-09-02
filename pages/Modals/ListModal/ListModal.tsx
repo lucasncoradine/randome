@@ -1,6 +1,7 @@
 import {
   Button,
   CardItem,
+  FileUploader,
   Grid,
   GridItem,
   Input,
@@ -10,11 +11,11 @@ import {
   Typography,
 } from "@components"
 import { useApp, useAuth } from "@contexts"
-import React, { useState } from "react"
-import { Plus } from "react-feather"
 import { ListModel } from "@models"
 import { ListService } from "@services"
 import { AppUtils } from "@utils"
+import React, { useState } from "react"
+import { Plus, Upload } from "react-feather"
 
 export const ListModal: React.FC<ModalProps> = (props) => {
   const { user, updateUserList } = useAuth()
@@ -40,11 +41,27 @@ export const ListModal: React.FC<ModalProps> = (props) => {
     setEnableButton(!!value)
   }
 
+  const importItens = async (files: File[]) => {
+    const newItems = await AppUtils.csvToStringArray(files)
+
+    if (newItems.length > 0) {
+      setItems([...items, ...newItems])
+    }
+
+    setShowLoader(false)
+  }
+
   const addItem = () => {
     if (newItem) {
       setItems([...items, newItem])
       setNewItem("")
     }
+  }
+
+  const handleImportItems = (files: File[]) => {
+    setShowLoader(true)
+
+    importItens(files)
   }
 
   const removeIndex = (index: number) => {
@@ -129,6 +146,15 @@ export const ListModal: React.FC<ModalProps> = (props) => {
                         leftIcon={Plus}
                         size="small"
                         onClick={() => addItem()}
+                      />
+                    </GridItem>
+
+                    <GridItem>
+                      <FileUploader
+                        acceptedExtensions={[".csv"]}
+                        leftIcon={Upload}
+                        size="small"
+                        onDataLoad={handleImportItems}
                       />
                     </GridItem>
                   </Grid>

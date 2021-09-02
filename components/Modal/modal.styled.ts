@@ -1,7 +1,7 @@
 import { rgba } from "polished"
 import styled, { keyframes } from "styled-components"
-import { Grid, GridItem } from ".."
-import { boxShadow3, Color } from "../../styles/vars.styled"
+import { Grid, GridItem } from "@components"
+import { boxShadow3, Color } from "@styles"
 
 const ModalAnimationOpen = keyframes`
   from {
@@ -20,6 +20,7 @@ export const ModalContainer = styled(Grid)`
   border-radius: 36px;
   padding: 30px;
   overflow: hidden;
+  position: relative;
 
   &.modal {
     &--sm {
