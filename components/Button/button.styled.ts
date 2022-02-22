@@ -2,15 +2,14 @@ import styled from "styled-components"
 import { Color } from "@styles"
 import { darken } from "polished"
 
-export const ButtonElement = styled.button<{ scale: string }>`
+export const ButtonElement = styled.button<{ href?: string; scale: string }>`
   outline: none;
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 150ms cubic-bezier(0.2, 0.5, 0.5, 1),
-    transform 300ms;
+  transition: background-color 50ms ease-out, transform 300ms;
 
   &:hover {
     transform: ${(props) => (props.scale === "true" ? "scale(1.03)" : "none")};

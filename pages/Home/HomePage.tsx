@@ -4,7 +4,6 @@ import {
   Confetti,
   Grid,
   GridItem,
-  Header,
   Loader,
   Typography,
 } from "@components"
@@ -29,7 +28,7 @@ export const HomePage: React.FC = () => {
   const emojiTimerRef = useRef<any>(null)
 
   const { selectedList } = useApp()
-  const { user, loading } = useAuth()
+  const { user } = useAuth()
 
   const [winner, setWinner] = useState("")
   const [title, setTitle] = useState<string>(Titles.NotStarted)
@@ -113,13 +112,7 @@ export const HomePage: React.FC = () => {
 
   return (
     <Grid height="100%" direction="column" alignItems="center" spacing={5}>
-      <Loader hideBackground showLogo show={loading} />
-
       {!isSorting && winner && <Confetti />}
-
-      <GridItem col={12}>
-        <Header />
-      </GridItem>
 
       <GridItem col={12}>
         <Grid direction="column" alignItems="center" spacing={5}>

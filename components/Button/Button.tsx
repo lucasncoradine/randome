@@ -30,6 +30,7 @@ export interface ButtonProps {
   onClick?(): void
   submitOnKeyPress?: boolean
   keyEvent?: KeyEvent
+  href?: string
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -44,6 +45,7 @@ export const Button: React.FC<ButtonProps> = ({
   scale = false,
   submitOnKeyPress = false,
   keyEvent = { ctrlKey: false, shiftKey: true, key: "Enter" },
+  href,
   className,
 }) => {
   const buttonRef = useRef<HTMLButtonElement>(null)
@@ -86,6 +88,8 @@ export const Button: React.FC<ButtonProps> = ({
       className={classes}
       disabled={disabled}
       scale={scale.toString()}
+      as={href ? "a" : "button"}
+      href={href}
     >
       {leftIcon && (
         <Icon icon={leftIcon} size={iconSize} className="buttonIcon--left" />

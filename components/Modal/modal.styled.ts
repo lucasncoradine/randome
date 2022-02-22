@@ -24,7 +24,9 @@ export const ModalContainer = styled(Grid)`
 
   &.modal {
     &--sm {
-      width: 300px;
+      width: 450px;
+      min-height: 100px;
+      padding: 16px;
     }
 
     &--md {

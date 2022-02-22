@@ -20,7 +20,8 @@
       "@models": ["models"],
       "@services": ["services"],
       "@styles": ["styles"],
-      "@utils": ["utils"]
+      "@utils": ["utils"],
+      "@enums": ["enums"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

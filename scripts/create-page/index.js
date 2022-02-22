@@ -9,7 +9,7 @@ if (!name) {
 }
 
 const dir = `./pages/${name}/`
-const styleDir = `./styles/pages/${name}`
+const styleDir = `./styles/pages/`
 
 // throw an error if the file already exists
 if (fs.existsSync(dir)) throw new Error("A page with that name already exists.")
@@ -25,13 +25,26 @@ function writeFileErrorHandler(err) {
 }
 
 // page.jsx
-fs.writeFile(`${dir}/${name}.tsx`, page(name), writeFileErrorHandler)
+fs.writeFile(`${dir}/index.tsx`, page(name), writeFileErrorHandler)
 // page.styled
 fs.writeFile(
   `${styleDir}/${name.toLowerCase()}.styled.ts`,
   styled(name),
   writeFileErrorHandler
 )
+
+// insert new component into 'components/index file
+fs.readFile("./styles/index.ts", "utf8", (err) => {
+  if (err) {
+    console.clear()
+
+    throw err
+  }
+
+  const fileContent = `export * from "./styles/pages/${name}.styled"\n`
+
+  fs.appendFile(`./styles/index.ts`, fileContent, writeFileErrorHandler)
+})
 
 console.clear()
 console.log(`Page ${name} created!`)

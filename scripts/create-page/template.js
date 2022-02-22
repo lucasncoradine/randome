@@ -1,16 +1,16 @@
 // component.tsx
 exports.page = (name) => `import React from "react"
-import { ${name}Container } from "./styles/pages/${name.toLowerCase()}.styled"
+import { ${name}PageContainer } from "@styles"
 
-interface ${name}Props {
+interface ${name}PageProps {
   
 }
 
-export const ${name}: React.FC<${name}Props> = () => {
+export const ${name}Page: React.FC<${name}PageProps> = () => {
   return (
-    <${name}Container>
+    <${name}PageContainer>
       ${name} Page
-    </${name}Container>
+    </${name}PageContainer>
   )
 }
 
@@ -21,5 +21,5 @@ export default ${name}
 exports.styled = (name) => `import styled from "styled-components"
 import { Container } from "@styles"
 
-export const ${name}Container = styled(Container)\`\`
+export const ${name}PageContainer = styled(Container)\`\`
 `

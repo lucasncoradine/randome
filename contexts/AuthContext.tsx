@@ -1,3 +1,4 @@
+import { Loader } from "@components"
 import { useApp } from "@contexts"
 import { List } from "@models"
 import { ListService } from "@services"
@@ -117,6 +118,7 @@ export const AuthProvider: React.FC = ({ children }) => {
         updateUserList,
       }}
     >
+      <Loader hideBackground showLogo show={loading} />
       {children}
     </AuthContext.Provider>
   )

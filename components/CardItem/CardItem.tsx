@@ -1,22 +1,26 @@
+import { Button, Grid, GridItem, Typography } from "@components"
+import { Color } from "@styles"
+import { TypographyVariant } from "components/Typography/Typography"
 import React from "react"
 import { Edit2, Trash } from "react-feather"
-import { Button, Grid } from ".."
-import { GridItem } from "../Grid"
-import { Typography } from "../Typography/Typography"
-import { CardItemContainer } from "./cardItem.styled"
+import { CardItemContainer, CardInfo } from "./cardItem.styled"
 
 interface CardItemProps {
   label: string
+  labelVariant?: TypographyVariant
   disableEdit?: boolean
   disableRemove?: boolean
+  info?: string
   onEdit?(): void
   onRemove?(): void
 }
 
 export const CardItem: React.FC<CardItemProps> = ({
   label,
+  labelVariant = "p",
   disableEdit = false,
   disableRemove = false,
+  info,
   onEdit,
   onRemove,
 }) => {
@@ -24,11 +28,17 @@ export const CardItem: React.FC<CardItemProps> = ({
     <CardItemContainer>
       <Grid justifyContent="space-between" alignItems="center">
         <GridItem>
-          <Typography>{label}</Typography>
+          <Typography variant={labelVariant}>{label}</Typography>
         </GridItem>
 
         <GridItem>
-          <Grid spacing={1}>
+          <Grid spacing={1} alignItems="center">
+            {info && (
+              <GridItem>
+                <CardInfo variant="small">{info}</CardInfo>
+              </GridItem>
+            )}
+
             {!disableEdit && (
               <GridItem>
                 <Button

@@ -14,6 +14,7 @@ export interface ModalProps {
   onClose?(): void
   showCloseButton?: boolean
   size?: "sm" | "md" | "lg"
+  hideHeader?: boolean
 }
 
 export const Modal: React.FC<ModalProps> = ({
@@ -22,6 +23,7 @@ export const Modal: React.FC<ModalProps> = ({
   showCloseButton = true,
   onClose,
   size = "md",
+  hideHeader = false,
   children,
 }) => {
   const [isOpen, setIsOpen] = useState(open)
@@ -40,28 +42,30 @@ export const Modal: React.FC<ModalProps> = ({
   return (
     <ModalWrapper open={isOpen}>
       <ModalContainer direction="column" className={classes}>
-        <ModalTitle col={12}>
-          <Grid alignItems="center" justifyContent="space-between">
-            <GridItem>
-              <Typography weight="extrabold" variant="h3">
-                {title}
-              </Typography>
-            </GridItem>
-
-            {showCloseButton && (
+        {!hideHeader && (
+          <ModalTitle col={12}>
+            <Grid alignItems="center" justifyContent="space-between">
               <GridItem>
-                <Button
-                  variant="normal"
-                  size="normal"
-                  leftIcon={X}
-                  onClick={handleClose}
-                  submitOnKeyPress
-                  keyEvent={{ ctrlKey: false, key: "Escape" }}
-                />
+                <Typography weight="extrabold" variant="h3">
+                  {title}
+                </Typography>
               </GridItem>
-            )}
-          </Grid>
-        </ModalTitle>
+
+              {showCloseButton && (
+                <GridItem>
+                  <Button
+                    variant="normal"
+                    size="normal"
+                    leftIcon={X}
+                    onClick={handleClose}
+                    submitOnKeyPress
+                    keyEvent={{ ctrlKey: false, key: "Escape" }}
+                  />
+                </GridItem>
+              )}
+            </Grid>
+          </ModalTitle>
+        )}
 
         <ModalBody>{children}</ModalBody>
       </ModalContainer>

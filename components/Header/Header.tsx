@@ -8,6 +8,7 @@ import { LoginButton, LogoutButton } from "../../Auth/GoogleAuth"
 import { List } from "@models"
 import { ListModal } from "../../pages/Modals/ListModal/ListModal"
 import { HeaderContainer } from "./header.styled"
+import { Route } from "@enums"
 
 export const Header: React.FC = () => {
   const { storedLists, selectedList, selectList } = useApp()
@@ -30,7 +31,7 @@ export const Header: React.FC = () => {
     <HeaderContainer>
       <Grid alignItems="center">
         <GridItem col={6}>
-          <Link href="/">
+          <Link href={Route.Home}>
             <a>
               <Image src="/logo.svg" width={240} height={70} />
             </a>
@@ -70,7 +71,7 @@ export const Header: React.FC = () => {
                 <Button
                   variant="transparent-secondary"
                   label="Gerenciar listas"
-                  disabled
+                  href={Route.List}
                 />
                 <Button
                   variant="transparent-secondary"
