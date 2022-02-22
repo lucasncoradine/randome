@@ -4,7 +4,6 @@ import {
   Confetti,
   Grid,
   GridItem,
-  Loader,
   Typography,
 } from "@components"
 import { useApp, useAuth } from "@contexts"
@@ -22,7 +21,6 @@ enum Titles {
 export const HomePage: React.FC = () => {
   const initialEmoji = "👇"
   const initialSortTime = 5 // TODO: Pegar das configurações do usuário (segundos)
-  // const emojis = "🎈🎞🎁🖼🎪👑⚽⚾🏀🏐🏈🎳🎱🛶🤿⛸🏓🏆🎯🎮🕹🎲🎸🎷💣"
 
   const timerRef = useRef<any>(null)
   const emojiTimerRef = useRef<any>(null)
@@ -65,7 +63,8 @@ export const HomePage: React.FC = () => {
       timerRef.current = setInterval(() => {
         if (validSelectedList && selectedList !== null) {
           const winnerValue = ArrayUtils.getRandom(
-            selectedList.fields.items.split(";")
+            selectedList.fields.items.split(";"),
+            winner
           )
 
           setWinner(winnerValue)
@@ -74,12 +73,16 @@ export const HomePage: React.FC = () => {
         setSortTime((time) => time - 1)
       }, 1000)
 
+      let lastValue = ""
+
       emojiTimerRef.current = setInterval(() => {
         if (selectedList) {
           const randomValue = ArrayUtils.getRandom(
-            selectedList.fields.items.split(";")
+            selectedList.fields.items.split(";"),
+            lastValue
           )
 
+          lastValue = randomValue
           setTitle(randomValue)
         }
       }, 100)

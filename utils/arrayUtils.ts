@@ -26,8 +26,12 @@ export class ArrayUtils {
     })
   }
 
-  static getRandom(array: any[]) {
+  static getRandom(array: any[], exclude?: any) {
     if (array && array.length) {
+      if (exclude) {
+        array = array.filter((item) => item !== exclude)
+      }
+
       return array[Math.floor(Math.random() * array.length)]
     }
   }
